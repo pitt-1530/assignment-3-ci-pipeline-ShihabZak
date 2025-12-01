@@ -1,21 +1,46 @@
 package edu.pitt.se;
 
-import java.util.List;
+import java.util.*;
 
 public class PlaylistRecommender {
 
     public static String classifyEnergy(List<Integer> bpms) {
-        // TODO: Implement classifyEnergy()
-        throw new UnsupportedOperationException("Not implemented");
+		if (bpms == null || bpms.isEmpty()) {
+			throw new IllegalArgumentException("List cannot be null or empty");
+		}
+		
+		double avg = bpms.stream().mapToInt(Integer::intValue).average().orElse(0);
+		
+		if (avg >= 140) {
+			return "HIGH";
+		} else if (avg >= 100) {
+			return "MEDIUM";
+		} else {
+			return "LOW";
+		}
     }
 
-    public static boolean isValidTrackTitle(String title) {
-        // TODO: Implement isValidTrackTitle()
-        throw new UnsupportedOperationException("Not implemented");
-    }
+	public boolean isValidTrackTitle(String title) {
+		if (title == null) {
+			return false;
+		}
+		if (title.isEmpty() || title.length() > 30) {
+			return false;
+		}
+		for (char c : title.toCharArray()) {
+			if (!Character.isLetter(c) && c != ' ') {
+				return false;
+			}
+		}
+		return true;
+	}
 
-    public static int normalizeVolume(int volumeDb) {
-        // TODO: Implement normalizeVolume()
-        throw new UnsupportedOperationException("Not implemented");
-    }
+	public int normalizeVolume(int volumeDb) {
+		if (volumeDb < 0) {
+			return 0;
+		} else if (volumeDb > 100) {
+			return 100;
+		}
+		return volumeDb;
+	}
 }
